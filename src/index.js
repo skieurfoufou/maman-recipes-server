@@ -19,6 +19,10 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to API RecipeOfSabine" });
 });
 
+app.all("/healthz", (req, res) => {
+  res.status(200).send();
+});
+
 app.post("/login", async (req, res) => {
   const { password, email } = req.body;
   try {
