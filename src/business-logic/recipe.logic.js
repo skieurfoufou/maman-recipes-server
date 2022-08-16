@@ -3,13 +3,18 @@ const recipes = require("../data-layer/controllers/recipes.controller");
 const BadRequestError = require("../utils/errors/BadRequestError");
 const NotFoundError = require("../utils/errors/NotFoundError");
 const BaseError = require("../utils/errors/BaseError");
+const InternalServerError = require("../utils/errors/InternalServerError");
 
 const getAllRecipes = async (options) => {
-  const { subCategory } = options;
+  const { subCategory, q } = options;
   let filter = {};
 
   if (subCategory) {
-    filter = { subCategory: subCategory };
+    filter.subCategory = subCategory;
+  }
+
+  if (q) {
+    filter["title"] = { $regex: q, $options: "i" };
   }
 
   const allRecipes = await recipes.read(filter);
@@ -40,4 +45,30 @@ const createRecipe = async (newRecipe) => {
   return res;
 };
 
-module.exports = { getAllRecipes, getOneRecipe, createRecipe };
+const updateRecipe = async (id, recipe) => {
+  if (!recipe.title || !recipe.category || !recipe.subCategory) {
+    throw new BadRequestError(
+      `missing data -- title, category, or subCategory`
+    );
+  }
+  const res = await recipes.update(id, recipe);
+
+  return res;
+};
+
+const deleteRecipe = async (id) => {
+  try {
+    const res = await recipes.remove(id);
+    return res;
+  } catch (error) {
+    throw new InternalServerError("Error deleting recipe");
+  }
+};
+
+module.exports = {
+  getAllRecipes,
+  getOneRecipe,
+  createRecipe,
+  deleteRecipe,
+  updateRecipe,
+};

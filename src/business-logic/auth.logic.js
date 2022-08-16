@@ -25,6 +25,7 @@ function createJwtToken({ email }) {
 }
 
 function isTokenValid(bearerToken) {
+  if (!bearerToken) return false;
   // ? remove the 'Bearer '
   const jwtToken = bearerToken.split(" ")[1];
   try {

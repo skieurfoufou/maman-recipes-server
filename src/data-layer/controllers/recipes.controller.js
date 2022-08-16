@@ -17,12 +17,12 @@ async function create(newRecipe) {
   return await recipeModel.create(newRecipe);
 }
 
-async function update(id, updateFlight) {
-  return await recipeModel.findByIdAndUpdate(id, updateFlight);
+async function update(id, data) {
+  return await recipeModel.findByIdAndUpdate(id, data);
 }
 
-async function del(id) {
-  return await recipeModel.delete(id);
+async function remove(id) {
+  return await recipeModel.findByIdAndDelete(id);
 }
 
 module.exports = {
@@ -30,6 +30,6 @@ module.exports = {
   readOne,
   create,
   update,
-  delete: del,
+  remove,
   findById,
 };
