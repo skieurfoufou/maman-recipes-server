@@ -43,4 +43,6 @@ const recipeSchema = new mongoose.Schema({
   linkToPhoto: { type: String, required: false },
 });
 
+// recipeSchema.index({ title: "text" });
+
 module.exports = mongoose.model("recipe", recipeSchema);
