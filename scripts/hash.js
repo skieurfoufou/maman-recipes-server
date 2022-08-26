@@ -7,7 +7,7 @@ function hashString(string) {
 }
 
 (async () => {
-  const mypass = "1234";
+  const mypass = "1969";
   const hash = hashString(mypass);
   console.log(hash);
   const match = bcrypt.compareSync(mypass, hash);
